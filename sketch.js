@@ -8,7 +8,7 @@ let bg; // so the gradient stays in the backgorund
 function setup() {
   createCanvas(500, 500);
   bg = createGraphics(width, height); // bg so gradient not bleeding in front 
-  print("This deconstructed water lily clock uses three different visualizations to represent the hours, minutes, and seconds. The hours are represented by yellow circles, in military time. This represents the middle of the lily. The petals are represented using a triangle that slowly turns a lighter blue as an hour progresses, moving once a minute. The lily pad is represented by a growing gradient that turns green throughout a minute, changing every second, and resetting back to white after a minute.);
+  print("This deconstructed water lily clock uses three different visualizations to represent the hours, minutes, and seconds. The hours are represented by yellow circles, in military time. This represents the middle of the lily. The petals are represented using a triangle that slowly turns a lighter blue as an hour progresses, moving once a minute. The lily pad is represented by a growing gradient that turns green throughout a minute, changing every second, and resetting back to white after a minute.");
 }
 
 // draw the yellow circles for hours
