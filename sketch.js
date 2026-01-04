@@ -1,38 +1,102 @@
-var hour_xs = [], hour_ys = [];
-var minute_xs = [], minute_ys = [];
-var second_xs = [], second_ys = [];
+// minute triangle dimensions
+var tw = 200;
+var th = 300;
+
+let bg; // so the gradient stays in the backgorund
 
 // setup() is called once at page-load
 function setup() {
-    createCanvas(800,600); // make an HTML canvas element width x height pixels
-
-    for (var i = 0; i < 24; i++){
-    append(hour_xs, random(width)/3);
-    append(hour_ys, random(height));
-  }
+  createCanvas(500, 500);
+  bg = createGraphics(width, height); // bg so gradient not bleeding in front 
 }
 
-function drawBall(x, y, dia, k) {
-  fill(k, 150); // grayscale with 150/255 transparency
+// draw the yellow circles for hours
+function hourCircle(x, y, dia) {
+  fill(220, 180, 0); // yellow
   ellipse(x, y, dia, dia);
+}
+
+// draw background triangle 
+function drawStaticTri(x1, y1, x2, y2, x3, y3) { 
+  fill(28, 142, 174, 255); // lily blue
+  triangle(x1, y1, x2, y2, x3, y3);
+}
+
+/* radial gradient adapted from: https://editor.p5js.org/george.gala/sketches/nKMYJ6iTy */
+function radialGradient(g, sX, sY, sR, eX, eY, eR, startColor, endColor) {
+  let gradient = g.drawingContext.createRadialGradient(
+    sX, sY, sR, eX, eY, eR
+  );
+  gradient.addColorStop(0, startColor);
+  gradient.addColorStop(1, endColor);
+
+  g.drawingContext.fillStyle = gradient;
 }
 
 // draw() is called 60 times per second
 function draw() {
-    let hr = hour();
-    let min = minute();
-    let sec = second();
-
-    for (var i = 0; i < hour(); i++){
-    drawBall(hour_xs[i], hour_ys[i], 90, 80);
+  let hr = hour();
+  let min = minute();
+  let sec = second();
+  
+  // assignment requirement to print the minute 
+  if(sec == 59) { 
+    print(min);
   }
-    background(225);
-    textSize(32);
-    fill(180);
-    text(hr, 10, 30);
-    fill(100);
-    text(min, 10, 60);
-    fill(0);
-    text(sec, 10, 90);
-}
 
+  // triangle variables
+  var mid = width / 2;
+  var tx1 = mid - tw / 2;
+  var ty1 = mid - th / 2;
+  var tx2 = mid + tw / 2;
+  var ty2 = mid - th / 2;
+  var ty3 = ty1 + th;
+
+  // variables for hour circle
+  let radius = 60;
+
+  // dynamic variable for moving triangle
+  var ts = map(min, 0, 60, 0, 100);
+
+  noStroke();
+  
+  // gradient background
+  bg.clear();
+  bg.noStroke();
+
+  // dynamic radius that changes with seconds
+  let r = map(sec, 0, 60, 0, 290);
+
+  radialGradient(
+    bg,
+    width / 2 - 40, height / 2 - 120, 0,
+    width / 2 - 40, height / 2 - 120, r,
+    'rgba(94,164,120,0.4)',
+    'rgba(255,255,255,0.4)'
+  );
+
+  bg.ellipse(width / 2, height / 2.1, 400, 400);
+
+  image(bg, 0, 0);
+
+  // in front
+
+  // static triangle
+  drawStaticTri(tx1, ty1, tx2, ty2, mid, ty3);
+
+  /* dynamic triangle, moves every minute, when fully light blue it is at 0 minutes, when fully dark blue, it is at 60 minutes */
+  fill(255, 255, 255, 130);
+  triangle(
+    tx1 + ts, ty1 + min * (th / 60),
+    tx2 - ts, ty2 + min * (th / 60),
+    mid, ty3
+  );
+
+  // hour circle
+  for (var i = 0; i < hr; i++) {
+    let angle = TWO_PI * i / 24 - HALF_PI;
+    let x = mid + cos(angle) * radius;
+    let y = mid - th / 4 + sin(angle) * radius;
+    hourCircle(x, y, 13);
+  }
+}
