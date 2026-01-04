@@ -1,3 +1,7 @@
+var hour_xs = [], hour_ys = [];
+var minute_xs = [], minute_ys = [];
+var second_xs = [], second_ys = [];
+
 // setup() is called once at page-load
 function setup() {
     createCanvas(800,600); // make an HTML canvas element width x height pixels
