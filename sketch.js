@@ -8,17 +8,6 @@ function setup() {
   }
 }
 
-function draw(){
-  background(255);
-  fill(0);
-
-  for (var i = 0; i < hour(); i++){
-    drawBall(hour_xs[i], hour_ys[i], 90, 80);
-  }
-
-}
-
-
 function drawBall(x, y, dia, k) {
   fill(k, 150); // grayscale with 150/255 transparency
   ellipse(x, y, dia, dia);
@@ -30,6 +19,9 @@ function draw() {
     let min = minute();
     let sec = second();
 
+    for (var i = 0; i < hour(); i++){
+    drawBall(hour_xs[i], hour_ys[i], 90, 80);
+  }
     background(225);
     textSize(32);
     fill(180);
