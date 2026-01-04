@@ -66,12 +66,12 @@ function draw() {
   bg.noStroke();
 
   // dynamic radius that changes with seconds
-  let r = map(sec, 0, 60, 0, 340);
+  let r = map(sec, 0, 60, 0, 380);
 
   radialGradient(
     bg,
-    width / 2 - 40, height / 2 - 120, 0,
-    width / 2 - 40, height / 2 - 120, r,
+    width / 2 - 70, height / 2 - 170, 0,
+    width / 2 - 70, height / 2 - 170, r,
     'rgba(94,164,120,0.4)',
     'rgba(255,255,255,0.4)'
   );
